@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DisplayWeatherAndTemp from "../components/DiplayWeatherAndTemp";
 import SearchLocation from "../components/SearchLocation";
+import "../App.css";
 
+//fetch location.json from public folder
 export default function FetchJsonData() {
-  const [data, setData] = useState(null);
-  /*  const [randomIndex, setRandomIndex] = useState(null); */
+  const [data, setData] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -18,11 +19,6 @@ export default function FetchJsonData() {
 
         const jsonData = await response.json();
         setData(jsonData);
-        // Generate a random index based on the length of the data array
-        /*  if (jsonData.length > 0) {
-          const randomIdx = Math.floor(Math.random() * jsonData.length);
-          setRandomIndex(randomIdx);
-        } */
       } catch (error) {
         console.error("Failed to fetch JSON data:", error);
       }
@@ -41,32 +37,15 @@ export default function FetchJsonData() {
     }
   }, [data]);
 
-  /* return (
-    <div>
-      {data ? (
-        <>
-          <DisplayWeatherAndTemp location={data[randomIndex]} />
-          <div>
-            {data.map((location, index) => (
-              <div key={index}>
-                <DisplayWeatherAndTemp location={location} />
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  ); */
-
   return (
     <div>
       {data ? (
         <>
-          <DisplayWeatherAndTemp location={data[currentIndex]} />
-
-          <SearchLocation locations={data} />
+          <div className="app">
+            <h1 className="title">Weather App</h1>
+            <SearchLocation locations={data} />
+            <DisplayWeatherAndTemp location={data[currentIndex]} />
+          </div>
         </>
       ) : (
         <p>Loading...</p>
