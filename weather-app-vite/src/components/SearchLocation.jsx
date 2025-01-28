@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DisplayWeatherAndTemp from "../components/DiplayWeatherAndTemp";
+import DisplayWeatherAndTemp from "./DisplayWeatherAndTemp";
 import "../WeatherDisplay.css";
 
 function SearchLocation({ locations }) {
@@ -30,13 +30,12 @@ function SearchLocation({ locations }) {
           <div key={index}>{location}</div>
         ))}
       </div> */}
-      <div>
-        {filteredLocations.map((location, index) => (
-          <div key={index}>
-            <DisplayWeatherAndTemp location={location} />
-          </div>
-        ))}
-      </div>
+
+      {filteredLocations.map((location, index) => (
+        <div key={index}>
+          <DisplayWeatherAndTemp location={location} />
+        </div>
+      ))}
     </div>
   );
 }
