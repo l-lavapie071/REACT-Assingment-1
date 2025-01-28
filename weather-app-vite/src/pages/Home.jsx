@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DisplayWeatherAndTemp from "../components/DisplayWeatherAndTemp";
-import SearchLocation from "../components/SearchLocation";
 import "../App.css";
 
 //fetch location.json from public folder
@@ -70,9 +69,9 @@ export default function FetchJsonData() {
                 <DisplayWeatherAndTemp location={data} />
               </div>
             ))}
-            {/* <SearchLocation locations={data} /> */}
           </div>
           <div className="display-weather">
+            {/* hide this section if search input text is populated */}
             {!searchTerm && (
               <DisplayWeatherAndTemp location={data[currentIndex]} />
             )}
