@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DisplayWeatherAndTemp from "../components/DiplayWeatherAndTemp";
-import SearchLocation from "../components/SearchLocation";
+import DisplayWeatherAndTemp from "../components/DisplayWeatherAndTemp";
+import "../App.css";
 
+//fetch location.json from public folder
 export default function FetchJsonData() {
-  const [data, setData] = useState(null);
-  /*  const [randomIndex, setRandomIndex] = useState(null); */
+  const [data, setData] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,11 +19,6 @@ export default function FetchJsonData() {
 
         const jsonData = await response.json();
         setData(jsonData);
-        // Generate a random index based on the length of the data array
-        /*  if (jsonData.length > 0) {
-          const randomIdx = Math.floor(Math.random() * jsonData.length);
-          setRandomIndex(randomIdx);
-        } */
       } catch (error) {
         console.error("Failed to fetch JSON data:", error);
       }
@@ -32,40 +28,54 @@ export default function FetchJsonData() {
   }, []);
 
   useEffect(() => {
-    if (data) {
+    if (!searchTerm) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
       }, 3000); // Change location every 3 seconds
 
       return () => clearInterval(interval);
     }
-  }, [data]);
+  }, [data, searchTerm]);
 
-  /* return (
-    <div>
+  const filteredLocations = searchTerm
+    ? data.filter((location) =>
+        location.city.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+  /* console.log(data[0]); */
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <div className="app">
       {data ? (
         <>
-          <DisplayWeatherAndTemp location={data[randomIndex]} />
-          <div>
-            {data.map((location, index) => (
+          <div className="app">
+            <h1 className="title">Weather App</h1>
+          </div>
+          <div className="search-location">
+            <input
+              type="text"
+              placeholder="Search for a location"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="search-input"
+            />
+
+            {filteredLocations.map((data, index) => (
               <div key={index}>
-                <DisplayWeatherAndTemp location={location} />
+                <DisplayWeatherAndTemp location={data} />
               </div>
             ))}
           </div>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-  ); */
-
-  return (
-    <div>
-      {data ? (
-        <>
-          <SearchLocation locations={data} />
-          <DisplayWeatherAndTemp location={data[currentIndex]} />
+          <div className="display-weather">
+            {/* hide this section if search input text is populated */}
+            {!searchTerm && (
+              <DisplayWeatherAndTemp location={data[currentIndex]} />
+            )}
+          </div>
         </>
       ) : (
         <p>Loading...</p>
