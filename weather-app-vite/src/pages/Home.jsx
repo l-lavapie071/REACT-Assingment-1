@@ -55,6 +55,9 @@ export default function FetchJsonData() {
           <div className="app">
             <h1 className="title">Weather App</h1>
           </div>
+          <div className="display-weather">
+            <DisplayWeatherAndTemp location={data[8]} />
+          </div>
           <div className="search-location">
             <input
               type="text"
