@@ -28,7 +28,7 @@ export default function FetchJsonData() {
   }, []);
 
   useEffect(() => {
-    if (!searchTerm) {
+    if (data && !searchTerm) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
       }, 3000); // Change location every 3 seconds
