@@ -64,9 +64,8 @@ export default function FetchJsonData() {
     <div>
       {data ? (
         <>
-          <DisplayWeatherAndTemp location={data[currentIndex]} />
-
           <SearchLocation locations={data} />
+          <DisplayWeatherAndTemp location={data[currentIndex]} />
         </>
       ) : (
         <p>Loading...</p>
