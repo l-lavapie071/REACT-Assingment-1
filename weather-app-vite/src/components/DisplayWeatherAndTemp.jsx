@@ -1,16 +1,26 @@
+import React from "react";
+import PropTypes from "prop-types";
 import "../WeatherDisplay.css";
 
-function DisplayWeatherAndTemp({ location }) {
+function DisplayWeatherAndTemp({ location = {} }) {
+  const { city = "Unknown", weather = "N/A", temperature = "N/A" } = location;
+
   return (
-    <div>
-      <div className="weather-display">
-        <p className="city">City: {location.city} </p>
-        <p className="weather-info ">
-          Weather: {location.weather} | Temperature: {location.temperature}
-        </p>
-      </div>
+    <div className="weather-display">
+      <p className="city">City: {city} </p>
+      <p className="weather-info">
+        Weather: {weather} | Temperature: {temperature}
+      </p>
     </div>
   );
 }
+
+DisplayWeatherAndTemp.propTypes = {
+  location: PropTypes.shape({
+    city: PropTypes.string,
+    weather: PropTypes.string,
+    temperature: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+};
 
 export default DisplayWeatherAndTemp;
